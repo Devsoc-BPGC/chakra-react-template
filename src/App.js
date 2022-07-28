@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 import { Logo } from './Logo';
+import Footer from './Components/Footer';
 
 function App() {
   return (
@@ -30,10 +31,11 @@ function App() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn Chakra
+              Learn Chakras
             </Link>
           </VStack>
         </Grid>
+        <Footer />
       </Box>
     </ChakraProvider>
   );
