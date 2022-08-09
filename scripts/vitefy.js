@@ -64,16 +64,16 @@ async function* getFiles(dir) {
   appendFile(
     'vite.config.js',
     `import { defineConfig } from "vite";
-  import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react";
   
-  export default ({ mode }) => {
-      return defineConfig({
-          plugins: [react()],
-          define: {
-              "process.env.NODE_ENV": \`"\${mode}"\`,
-          }
-      })
-  }`,
+export default ({ mode }) => {
+    return defineConfig({
+        plugins: [react()],
+        define: {
+            "process.env.NODE_ENV": \`"\${mode}"\`,
+        }
+    })
+}`,
     err => {
       if (err) throw err;
     }
@@ -141,8 +141,7 @@ export default ({ mode }) => {
             "process.env.NODE_ENV": \`"\${mode}"\`,
         }
     })
-}
-            `;
+}`;
       writeFile('vite.config.js', pwa, err => {
         if (err) throw err;
       });
