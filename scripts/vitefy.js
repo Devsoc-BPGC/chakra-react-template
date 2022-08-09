@@ -62,14 +62,6 @@ async function* getFiles(dir) {
   });
 
   appendFile(
-    'index.html',
-    '<script type="module" src="./src/index.jsx"></script>',
-    err => {
-      if (err) throw err;
-    }
-  );
-
-  appendFile(
     'vite.config.js',
     `import { defineConfig } from "vite";
   import react from "@vitejs/plugin-react";
