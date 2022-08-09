@@ -61,7 +61,7 @@ async function* getFiles(dir) {
     }
   });
 
-  appendFile(
+  writeFile(
     'vite.config.js',
     `import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
