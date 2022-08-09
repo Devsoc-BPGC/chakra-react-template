@@ -23,7 +23,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "viteify": "node scripts/viteify.js"
+    "vitefy": "node scripts/vitefy.js"
   },
   "eslintConfig": {
     "extends": "react-app"

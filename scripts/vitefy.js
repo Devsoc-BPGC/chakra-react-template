@@ -38,8 +38,25 @@ async function* getFiles(dir) {
 
   stat(join('public', 'index.html'), (err, stats) => {
     if (!err) {
-      unlink(join('public', 'index.html'), err => {
+      readFile(join('public', 'index.html'), (err, data) => {
         if (err) throw err;
+        writeFile(
+          'index.html',
+          data
+            .toString()
+            .replaceAll('%PUBLIC_URL%', '')
+            .replace(
+              `<div id="root"></div>`,
+              `<div id="root"></div>
+    <script type="module" src="/src/index.jsx"></script>`
+            ),
+          err => {
+            if (err) throw err;
+          }
+        );
+        unlink(join('public', 'index.html'), err => {
+          if (err) throw err;
+        });
       });
     }
   });
@@ -52,9 +69,23 @@ async function* getFiles(dir) {
     }
   );
 
-  appendFile('vite.config.js', '', err => {
-    if (err) throw err;
-  });
+  appendFile(
+    'vite.config.js',
+    `import { defineConfig } from "vite";
+  import react from "@vitejs/plugin-react";
+  
+  export default ({ mode }) => {
+      return defineConfig({
+          plugins: [react()],
+          define: {
+              "process.env.NODE_ENV": \`"\${mode}"\`,
+          }
+      })
+  }`,
+    err => {
+      if (err) throw err;
+    }
+  );
 
   if (packageManager == 'npm') {
     execSync('npm i vite @vitejs/plugin-react --save-dev', {
@@ -107,14 +138,20 @@ async function* getFiles(dir) {
         execSync('yarn add vite-plugin-pwa -D', { stdio: [0, 1, 2] });
       }
 
-      let pwa = `import { VitePWA } from 'vite-plugin-pwa'
-export default defineConfig({
-    plugins: [
-        VitePWA({ registerType: 'autoUpdate' })
-    ]
-})
+      let pwa = `import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { VitePWA } from 'vite-plugin-pwa';
+
+export default ({ mode }) => {
+    return defineConfig({
+        plugins: [react(),VitePWA({ registerType: 'autoUpdate' })],
+        define: {
+            "process.env.NODE_ENV": \`"\${mode}"\`,
+        }
+    })
+}
             `;
-      appendFile('vite.config.js', pwa, err => {
+      writeFile('vite.config.js', pwa, err => {
         if (err) throw err;
       });
     }
