@@ -7,7 +7,7 @@ const {
   unlink,
   writeFile,
 } = require('fs');
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const { readdir } = require('fs').promises;
 
 async function* getFiles(dir) {
@@ -23,7 +23,7 @@ async function* getFiles(dir) {
 }
 
 (async () => {
-  for await (const f of getFiles('./src')) {
+  for await (const f of getFiles('src')) {
     if (f.endsWith('.js')) {
       renameSync(f, f.slice(0, -3).concat('.jsx'));
     }
@@ -36,9 +36,9 @@ async function* getFiles(dir) {
     }
   });
 
-  stat('./public/index.html', (err, stats) => {
+  stat(join('public', 'index.html'), (err, stats) => {
     if (!err) {
-      unlink('./public/index.html', err => {
+      unlink(join('public', 'index.html'), err => {
         if (err) throw err;
       });
     }
@@ -64,13 +64,13 @@ async function* getFiles(dir) {
     execSync('yarn add vite @vitejs/plugin-react -D', { stdio: [0, 1, 2] });
   }
 
-  readFile('./package.json', (err, data) => {
+  readFile('package.json', (err, data) => {
     if (err) throw err;
     let package = JSON.parse(data);
     package.scripts.start = 'vite';
     package.scripts.build = 'vite build --outDir build';
 
-    writeFile('./package.json', JSON.stringify(package, null, 2), err => {
+    writeFile('package.json', JSON.stringify(package, null, 2), err => {
       if (err) throw err;
     });
   });
