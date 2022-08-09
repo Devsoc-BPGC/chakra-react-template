@@ -64,6 +64,21 @@ async function* getFiles(dir) {
     execSync('yarn add vite @vitejs/plugin-react -D', { stdio: [0, 1, 2] });
   }
 
+  stat('.env', (err, stats) => {
+    if (!err) {
+      readFile('.env', (err, data) => {
+        if (err) throw err;
+        writeFile(
+          '.env',
+          data.toString().replaceAll('REACT_APP_', 'VITE_'),
+          err => {
+            if (err) throw err;
+          }
+        );
+      });
+    }
+  });
+
   readFile('package.json', (err, data) => {
     if (err) throw err;
     let package = JSON.parse(data);
