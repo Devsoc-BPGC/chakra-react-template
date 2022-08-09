@@ -76,7 +76,7 @@ async function* getFiles(dir) {
   });
 
   console.log(
-    'Convert all process.env to import.meta.env as its how vite exposes environment variables. Refer to https://vitejs.dev/guide/env-and-mode.html'
+    '\nConvert all process.env to import.meta.env as its how vite exposes environment variables. Refer to https://vitejs.dev/guide/env-and-mode.html'
   );
 
   const readline = require('readline');
@@ -84,7 +84,7 @@ async function* getFiles(dir) {
     input: process.stdin,
     output: process.stdout,
   });
-  prompt.question('Perform PWA migration to Vite?[Y/n]', answer => {
+  prompt.question('\nPerform PWA migration to Vite? [Y/n] ', answer => {
     if (answer == 'Y') {
       if (packageManager == 'npm') {
         execSync('npm i vite-plugin-pwa -D', { stdio: [0, 1, 2] });
