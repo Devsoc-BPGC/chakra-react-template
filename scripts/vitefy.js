@@ -1,12 +1,5 @@
 const { execSync } = require('child_process');
-const {
-  stat,
-  renameSync,
-  appendFile,
-  readFile,
-  unlink,
-  writeFile,
-} = require('fs');
+const { stat, renameSync, readFile, unlink, writeFile } = require('fs');
 const { resolve, join } = require('path');
 const { readdir } = require('fs').promises;
 
